@@ -4,7 +4,7 @@ metadata:
   name: app-config
 data:
   DOCKER_REGISTRY: "docker.io"
-  IMAGE_NAME: "karanthakkar09/static-site"
+  IMAGE_NAME: "karanthakkar09/jkops:lastest"
   IMAGE_TAG: "1.0.0"
   CPU_LIMIT: "500m"
   MEMORY_LIMIT: "128Mi"
