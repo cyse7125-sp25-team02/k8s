@@ -1,0 +1,11 @@
+# .gitignore
+*.dec.yaml
+*.dec.json
+*.plain.yaml
+*.plain.json
+.env
+.env.*
+!.env.example
+age/key.txt
+.DS_Store
+secrets.yaml
