@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: caddy
-          image: karanthakkar09/static-site:1.0.0
+          image: karanthakkar09/jkops:lastest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
