@@ -9,3 +9,4 @@
 age/key.txt
 .DS_Store
 secrets.yaml
+*credentials.yaml

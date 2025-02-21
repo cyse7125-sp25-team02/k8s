@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webapp-hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webapp-hello-world
+  template:
+    metadata:
+      labels:
+        app: webapp-hello-world
+    spec:
+      imagePullSecrets:
+        - name: docker-registry-auth
+      initContainers:
+        - name: db-migration
+          image: "karanthakkar09/database-migration:latest"
+          imagePullPolicy: Always
+          command: ["flyway", "migrate"] # Ensure the migrate command runs
+          envFrom:
+            - secretRef:
+                name: postgres-credentials
+          env:
+            - name: FLYWAY_URL
+              value: "jdbc:postgresql://postgres:5432/webapp"
+            - name: FLYWAY_USER
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_USER
+            - name: FLYWAY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-credentials
+                  key: DB_PASSWORD
+            - name: FLYWAY_DEFAULT_SCHEMA
+              value: "webapp" # Adjust if your app uses a different schema
+            - name: FLYWAY_CREATE_SCHEMAS
+              value: "true"
+            - name: FLYWAY_CONNECT_RETRIES
+              value: "60" # Retry for 60 seconds if DB isn’t ready
+            - name: FLYWAY_VALIDATE_MIGRATION_NAMING
+              value: "true"
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "256Mi"
+            requests:
+              cpu: "0.2"
+              memory: "128Mi"
+      containers:
+        - name: webapp
+          image: "karanthakkar09/webapp-hello-world:latest"
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+              protocol: TCP
+          envFrom:
+            - secretRef:
+                name: webapp-credentials
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "256Mi"
+            requests:
+              cpu: "0.2"
+              memory: "128Mi"
