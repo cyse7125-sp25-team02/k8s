@@ -1,3 +1,4 @@
 creation_rules:
   - path_regex: .*\.yaml$
-    age: age18n3ez3s0z0e9cuncrnvunq3sdur8wgn4rqpd9dtcunmr9eg7tuvsu4k2jn # Public key
+    encrypted_regex: "^(stringData)$"
+    gcp_kms: "projects/silicon-works-449817-n7/locations/us/keyRings/csye7125/cryptoKeys/sops"
